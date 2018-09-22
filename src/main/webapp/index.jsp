@@ -14,6 +14,7 @@
     <link href="./image/icon.png" rel="Shortcut Icon">
     <script src="./js/validation.js"></script>
     <script src="./js/overlay.js"></script>
+    <script src="./js/draw.js"></script>
 </head>
 
 <body>
@@ -41,6 +42,7 @@
 
 <div class="all__site__wrap">
     <div class="wrap__img__graph">
+        <!--<canvas id="plot-canvas"></canvas>-->
         <img class="graph__image" src="./image/areas.png">
     </div>
     <form name="form"  onsubmit="return isFormFilled()" method="get"

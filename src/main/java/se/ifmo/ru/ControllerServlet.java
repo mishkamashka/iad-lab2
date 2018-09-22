@@ -7,13 +7,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ControllerServlet extends HttpServlet {
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        this.doPost(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("x_coordinate") != null && request.getParameter("y_coordinate") != null && request.getParameter("radius") != null) {
+            AreaCheckServlet areaCheckServlet = new AreaCheckServlet();
+            areaCheckServlet.doPost(request, response);
+        }
     }
 }

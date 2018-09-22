@@ -14,4 +14,14 @@
     <url-pattern>/areaCheckServlet</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>ControllerServlet</servlet-name>
+    <servlet-class>se.ifmo.ru.ControllerServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ControllerServlet</servlet-name>
+    <url-pattern>/controllerServlet</url-pattern>
+  </servlet-mapping>
+
 </web-app>
