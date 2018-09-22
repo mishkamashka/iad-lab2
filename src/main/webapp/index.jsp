@@ -47,29 +47,15 @@
     </div>
     <form name="form"  onsubmit="return isFormFilled()" method="get"
           style="display: flex; flex-direction: column;">
-        <select class="select input__global--margin input__global--size" id="coordinate_x" name="coordinate_x">
-            <option value="" disabled selected>Choose 'x' coordinate</option>
-            <option value="-3">-3</option>
-            <option value="-2">-2</option>
-            <option value="-1">-1</option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <input class="input__text input__global--margin input__global--size" placeholder="enter 'y' coordinate"
+        <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' coordinate"
                type="text" name="coordinate_y"
-               id="coordinate_y" onclick="charCheck()"/>
-        <select class="select input__global--margin input__global--size" id="radius" name="radius">
-            <option value="" disabled selected>Choose radius</option>
-            <option value="1">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-            <option value="2.5">2.5</option>
-            <option value="3">3</option>
-        </select>
+               id="coordinate_x" onclick="charCheckX()"/>
+        <input class="input__text input__global--margin input__global--size" placeholder="enter 'Y' coordinate"
+               type="text" name="coordinate_y"
+               id="coordinate_y" onclick="charCheckY()"/>
+        <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' value"
+               type="text" name="coordinate_y"
+               id="radius" onclick="charCheckR()"/>
         <button type="submit" class="btn btn--font input__global--margin input__global--size">check</button>
         <div class="error__msg">
         </div>
