@@ -89,35 +89,23 @@ public class AreaCheckServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (list == null) {
-            list = new ArrayList<Point>();
-            config.getServletContext().setAttribute("list", list);
-        }
-        response.setContentType("text/html");
+        if (isInputValid(request)) {
 
-        PrintWriter out = response.getWriter();
-
-
-        String[] xStrings = request.getParameterValues("xBox");
-        Integer[] xValues = new Integer[xStrings.length];
-        for (int i = 0; i < xStrings.length; ++i) {
-            xValues[i] = Integer.parseInt(xStrings[i]);
-        }
-
-        for (int i = 0; i < xValues.length; ++i) {
-            int currX = xValues[i];
-            int currY = Integer.parseInt(request.getParameter("y_coord"));
-            int currR = Integer.parseInt(request.getParameter("rBox"));
-            list.add(new Point(currX, currY));
-            list.get(list.size() - 1).R = Integer.parseInt(request.getParameter("rBox"));
-            if (checkArea(list.get(list.size() - 1).x, list.get(list.size() - 1).y, list.get(list.size() - 1).R)) {
-                list.get(list.size() - 1).isInArea = true;
-            } else {
-                list.get(list.size() - 1).isInArea = false;
+            if (list == null) {
+                list = new ArrayList<>();
+                config.getServletContext().setAttribute("list", list);
             }
-        }
+            response.setContentType("text/html");
 
-        response.sendRedirect("/lab7/lab7.jsp");
+            PrintWriter out = response.getWriter();
+
+            if (checkArea())
+                list.add(new Point(x, y, radius, true));
+            else
+                list.add(new Point(x ,y, radius, false));
+
+            response.sendRedirect("/lab7/lab7.jsp");
+        }
     }
 
     private boolean isInputValid(HttpServletRequest request) throws IllegalArgumentException, NumberFormatException {

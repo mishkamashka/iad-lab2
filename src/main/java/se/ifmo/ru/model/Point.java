@@ -5,9 +5,9 @@ public class Point {
     private final double x;
     private final double y;
     private boolean isInArea;
-    private int radius;
+    private double radius;
 
-    public Point(double x, double y, int radius, boolean isInArea) {
+    public Point(double x, double y, double radius, boolean isInArea) {
         this.x = x;
         this.y = y;
         this.isInArea = isInArea;
@@ -30,11 +30,11 @@ public class Point {
         isInArea = inArea;
     }
 
-    public int getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 }
