@@ -37,4 +37,16 @@ public class Point {
     public void setRadius(double radius) {
         this.radius = radius;
     }
+
+    public void updateWithNewRadius() {
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        Point p = (Point) obj;
+        return (p.getX() == this.getX() && p.getY() == this.getY());
+    }
 }

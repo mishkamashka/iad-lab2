@@ -23,6 +23,8 @@ public class AreaCheckServlet extends HttpServlet {
 
     private ServletConfig config;
     private List<Point> list = null;
+    private double x, y, radius;
+    private String errorMsg;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -30,22 +32,15 @@ public class AreaCheckServlet extends HttpServlet {
     }
 
     @Override
-    public void destroy() {
-    }
-
-    @Override
     public ServletConfig getServletConfig() {
         return config;
     }
 
-    private double x, y, radius;
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        this.doPost(request, response); //для обновления точек при новом радиусе
         response.setHeader("Content-Type", "text/html; charset=UTF-8");
         if(list==null) {
-            list=new ArrayList<Point>();
+            list=new ArrayList<>();
             config.getServletContext().setAttribute("list", list);
         }
         String delete = request.getParameter("delete");
@@ -89,22 +84,37 @@ public class AreaCheckServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (isInputValid(request)) {
+        errorMsg = "";
+        config.getServletContext().setAttribute("errorMsg", errorMsg); //recounting all points, then adding new point
+        try {
+            if (isInputValid(request)) {
+                if (list == null) {
+                    list = new ArrayList<>();
+                    config.getServletContext().setAttribute("list", list);
+                }
+                response.setContentType("text/html");
 
-            if (list == null) {
-                list = new ArrayList<>();
-                config.getServletContext().setAttribute("list", list);
+                //checking all old points with new radius and setting updated values
+                for (int i = 0; i < list.size(); i++) {
+                    Point p = list.get(i);
+                    p.setRadius(radius);
+                    if (checkArea(p))
+                        p.setInArea(true);
+                    else
+                        p.setInArea(false);
+                    list.set(i, p);
+                }
+
+                //adding new point
+                Point currentPoint = new Point(x, y, radius, false);
+                if (checkArea(currentPoint))
+                    currentPoint.setInArea(true);
+                list.add(currentPoint);
             }
-            response.setContentType("text/html");
-
-            PrintWriter out = response.getWriter();
-
-            if (checkArea())
-                list.add(new Point(x, y, radius, true));
-            else
-                list.add(new Point(x ,y, radius, false));
-
-            response.sendRedirect("/lab7/lab7.jsp");
+        } catch (IllegalArgumentException e) {
+            errorMsg = "Not correct values.";
+        } finally {
+            response.sendRedirect("/index.jsp");
         }
     }
 
@@ -118,8 +128,9 @@ public class AreaCheckServlet extends HttpServlet {
             throw new IllegalArgumentException("Значения параметров выходят за диапазон");
     }
 
-    private boolean checkArea() {
-        return (x >= 0 && x <= radius / 2 && y >= 0 && y <= radius / 2) || (x <= 0 && x >= -radius && y >= 0 && y <= radius) ||
-                (x <= 0 && Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(radius, 2) && y <= 0);
+    private boolean checkArea(Point point) {
+        return (point.getX() >= 0 && point.getX() <= point.getRadius() / 2 && point.getY() >= 0 && point.getY() <= point.getRadius() / 2) ||
+                (point.getX() <= 0 && point.getX() >= -point.getRadius() && point.getY() >= 0 && point.getY() <= point.getRadius()) ||
+                (point.getX() <= 0 && Math.pow(point.getX(), 2) + Math.pow(point.getY(), 2) <= Math.pow(point.getRadius(), 2) && point.getY() <= 0);
     }
 }
