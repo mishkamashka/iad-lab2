@@ -15,9 +15,10 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("x_coordinate") != null && request.getParameter("y_coordinate") != null && request.getParameter("radius") != null) {
-            AreaCheckServlet areaCheckServlet = new AreaCheckServlet();
-            areaCheckServlet.doPost(request, response);
-        }
+        if (request.getParameter("x_coordinate") != null && request.getParameter("y_coordinate") != null && request.getParameter("radius") != null)
+            request.getServletContext().getRequestDispatcher("/areaCheckServlet").forward(request, response);
+        else
+            request.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+
     }
 }

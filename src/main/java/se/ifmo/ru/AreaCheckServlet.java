@@ -23,8 +23,8 @@ public class AreaCheckServlet extends HttpServlet {
     }
 
     private boolean isInputValid(HttpServletRequest request) throws IllegalArgumentException, NumberFormatException {
-        x = Double.valueOf(request.getParameter("x_coordinate"));
-        y = Double.valueOf(request.getParameter("y_coordinate"));
+        x = Double.valueOf(request.getParameter("coordinate_x"));
+        y = Double.valueOf(request.getParameter("coordinate_y"));
         radius = Double.valueOf(request.getParameter("radius"));
         if (x > -3 && x < 5 && y > -3 && y < 3 && radius > 2 && radius < 5)
             return true;
