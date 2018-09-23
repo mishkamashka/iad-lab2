@@ -5,12 +5,12 @@
   <display-name>JSP Example</display-name>
 
   <servlet>
-    <servlet-name>areaCheckServlet</servlet-name>
+    <servlet-name>AreaCheckServlet</servlet-name>
     <servlet-class>se.ifmo.ru.AreaCheckServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>areaCheckServlet</servlet-name>
+    <servlet-name>AreaCheckServlet</servlet-name>
     <url-pattern>/areaCheckServlet</url-pattern>
   </servlet-mapping>
 

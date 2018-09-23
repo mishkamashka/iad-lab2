@@ -18,7 +18,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "AreaCheckServlet", urlPatterns = "/checking")
+@WebServlet(name = "AreaCheckServlet", urlPatterns = "/areaCheckServlet")
 public class AreaCheckServlet extends HttpServlet {
 
     private ServletConfig config;

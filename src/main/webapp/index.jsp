@@ -49,16 +49,16 @@
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
     </div>
-    <form name="form" onsubmit="return isFormFilled()" method="get"
+    <form name="form" action="controllerServlet" onsubmit="return isFormFilled()" method="post"
           style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' coordinate"
-               type="text" name="coordinate_y"
+               type="text" name="coordinate_x"
                id="coordinate_x" onclick="charCheckX()"/>
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'Y' coordinate"
                type="text" name="coordinate_y"
                id="coordinate_y" onclick="charCheckY()"/>
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' value"
-               type="text" name="coordinate_y"
+               type="text" name="radius"
                id="radius" onclick="charCheckR()"/>
         <button type="submit" class="btn btn--font input__global--margin input__global--size">check</button>
         <div class="error__msg">
