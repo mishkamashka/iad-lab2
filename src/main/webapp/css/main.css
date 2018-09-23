@@ -299,3 +299,7 @@ a:link {
   position: relative;
   bottom: -6px;
 }
+
+.canvas {
+  background: whitesmoke;
+}

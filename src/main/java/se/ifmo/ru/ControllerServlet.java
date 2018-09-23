@@ -10,7 +10,7 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doPost(request, response);
+        request.getServletContext().getRequestDispatcher("/areaCheckServlet").forward(request, response);
     }
 
     @Override

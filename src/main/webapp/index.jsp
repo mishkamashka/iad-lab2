@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.time.LocalDateTime" %>
+<%@ page import="se.ifmo.ru.AreaCheckServlet" %>
+<%@ page import="java.util.List" %>
+<%@ page import="se.ifmo.ru.model.Point" %>
+<%@ page import="java.util.ArrayList" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +19,7 @@
     <script src="./js/validation.js"></script>
     <script src="./js/overlay.js"></script>
     <script src="./js/draw.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -31,8 +36,6 @@
     </div>
     <div class="header__block__var">
         Вариант 28022
-        <a><%= LocalDateTime.now() %>
-        </a>
     </div>
     <div class="header__block__author">
         Анисимова Мария, P3210
@@ -42,10 +45,12 @@
 
 <div class="all__site__wrap">
     <div class="wrap__img__graph">
-        <!--<canvas id="plot-canvas"></canvas>-->
-        <img class="graph__image" src="./image/areas.png">
+        <div class="interactive_element">
+            <h2>Интерактивный элемент</h2>
+            <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
+        </div>
     </div>
-    <form name="form"  onsubmit="return isFormFilled()" method="get"
+    <form name="form" onsubmit="return isFormFilled()" method="get"
           style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' coordinate"
                type="text" name="coordinate_y"
@@ -74,6 +79,25 @@
             <div class="cell">
                 Result
             </div>
+            <%
+                List<Point> points = (ArrayList<Point>) getServletConfig().getServletContext().getAttribute("points");
+                if (points != null) {
+                    for (Point point : points) {
+                        out.println("<div class =\"cell\" data-title=\"X\">");
+                        out.println(point.getX());
+                        out.println("</div>");
+                        out.println("<div class =\"cell\" data-title=\"Y\">");
+                        out.println(point.getY());
+                        out.println("</div>");
+                        out.println("<div class =\"cell\" data-title=\"R\">");
+                        out.println(point.getRadius());
+                        out.println("</div>");
+                        out.println("<div class =\"cell\" data-title=\"Result\">");
+                        out.println(point.isInArea());
+                        out.println("</div>");
+                    }
+                }
+            %>
         </div>
     </div>
 </div>
