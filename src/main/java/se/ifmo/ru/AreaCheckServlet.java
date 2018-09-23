@@ -110,7 +110,7 @@ public class AreaCheckServlet extends HttpServlet {
         } catch (IllegalArgumentException e) {
             errorMsg = "Not correct values.";
         } finally {
-            response.sendRedirect("/index.jsp");
+            response.sendRedirect("index.jsp");
         }
     }
 

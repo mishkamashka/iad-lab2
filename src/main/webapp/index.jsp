@@ -49,7 +49,7 @@
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
     </div>
-    <form name="form" action="controllerServlet" onsubmit="return isFormFilled()" method="post"
+    <form enctype="application/json" name="form" action="controllerServlet" onsubmit="return isFormFilled()" method="post"
           style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' coordinate"
                type="text" name="coordinate_x"
@@ -59,8 +59,9 @@
                id="coordinate_y" onclick="charCheckY()"/>
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' value"
                type="text" name="radius"
+               onchange="setRadius()"
                id="radius" onclick="charCheckR()"/>
-        <button type="submit" class="btn btn--font input__global--margin input__global--size">check</button>
+        <button onclick="submitAction()" class="btn btn--font input__global--margin input__global--size">check</button>
         <div class="error__msg">
         </div>
     </form>
@@ -78,26 +79,29 @@
             <div class="cell">
                 Result
             </div>
-            <%
-                List<Point> points = (ArrayList<Point>) getServletConfig().getServletContext().getAttribute("points");
-                if (points != null) {
-                    for (Point point : points) {
-                        out.println("<div class =\"cell\" data-title=\"X\">");
-                        out.println(point.getX());
-                        out.println("</div>");
-                        out.println("<div class =\"cell\" data-title=\"Y\">");
-                        out.println(point.getY());
-                        out.println("</div>");
-                        out.println("<div class =\"cell\" data-title=\"R\">");
-                        out.println(point.getRadius());
-                        out.println("</div>");
-                        out.println("<div class =\"cell\" data-title=\"Result\">");
-                        out.println(point.isInArea());
-                        out.println("</div>");
-                    }
-                }
-            %>
         </div>
+
+        <%
+            List<Point> points = (ArrayList<Point>) getServletConfig().getServletContext().getAttribute("points");
+            if (points != null) {
+                for (Point point : points) {
+                    out.println("<div class =\"row\">");
+                    out.println("<div class =\"cell\" data-title=\"X\">");
+                    out.println(point.getX());
+                    out.println("</div>");
+                    out.println("<div class =\"cell\" data-title=\"Y\">");
+                    out.println(point.getY());
+                    out.println("</div>");
+                    out.println("<div class =\"cell\" data-title=\"R\">");
+                    out.println(point.getRadius());
+                    out.println("</div>");
+                    out.println("<div class =\"cell\" data-title=\"Result\">");
+                    out.println(point.isInArea());
+                    out.println("</div>");
+                    out.println("</div>");
+                }
+            }
+        %>
     </div>
 </div>
 
