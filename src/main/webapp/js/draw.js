@@ -186,18 +186,17 @@ function drawFigure(context)
     context.beginPath();
     context.fillStyle="#5c99ED";
     context.strokeStyle="#5c99ED";
-    //Top-Left
-    context.moveTo(300-pixelsForRadius, 299);
-    context.lineTo(299, 300 - pixelsForRadius / 2);
-    context.lineTo(299, 299);
     //Bottom-Left
-    context.fillRect(300 - pixelsForRadius / 2, 301, pixelsForRadius / 2 - 1, pixelsForRadius - 1);
-    //Bottom-Right
+    context.moveTo(300, 299 - pixelsForRadius/2);
+    context.lineTo(299 + pixelsForRadius/2, 300);
+    context.lineTo(299, 299);
     context.fill();
+    //Top-Left
+    context.fillRect(301 - pixelsForRadius, 301 - pixelsForRadius, pixelsForRadius - 1, pixelsForRadius - 1);
+    //Bottom-Right
     context.closePath();
     context.beginPath();
-    context.arc(301, 301, pixelsForRadius / 2 - 1, 0, 0.5 * Math.PI);
-    context.lineTo(301, 301);
+    context.arc(299, 301, pixelsForRadius - 1, 0.5 * Math.PI, 1.5 * Math.PI);
     context.closePath();
     context.fill();
 }

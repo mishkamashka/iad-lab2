@@ -46,7 +46,6 @@
 <div class="all__site__wrap">
     <div class="wrap__img__graph">
         <div class="interactive_element">
-            <h2>Интерактивный элемент</h2>
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
     </div>
