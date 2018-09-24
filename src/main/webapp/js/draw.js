@@ -3,8 +3,18 @@ k = 50;
 x_val = [];
 y_val = [];
 
+
+window.onload = function () {
+    setRadius();
+    canvasFill();
+    initiateGraph();
+};
+
 function setRadius() {
     R = document.getElementById('radius').value;
+    if (R == "") {
+        R = 2;
+    }
 }
 
 function clear1() {
@@ -181,15 +191,23 @@ function drawFigure(context) {
     context.fill();
 }
 
-function submitAction() {
+function submitXYAction() {
     var x_value = Number(document.getElementById('coordinate_x').value);
     var y_value = Number(document.getElementById('coordinate_y').value);
-    var radius = Number(document.getElementById('radius').value);
-    doRequest(x_value, y_value, radius, "save");
+    doXYRequest(x_value, y_value);
 }
 
-function doRequest(x, y, radius, save) {
-    return_data = [];
+function submitRAction() {
+    var radius = Number.getElementById('radius').value;
+    if (R != radius) {
+        doRRequest(radius);
+        R = radius;
+    }
+
+}
+
+function doXYRequest(x, y) {
+    var return_data = [];
     var canvas = document.getElementById("graph");
     $.ajax({
             type: "post",
@@ -197,10 +215,9 @@ function doRequest(x, y, radius, save) {
             data: {
                 coordinate_x: x,
                 coordinate_y: y,
-                radius: radius,
-                doSave: save
+                doSave: 1
             },
-            success: (save == 1 ? onAjaxSuccess : onAjaxSuccess1)
+            success: (onAjaxSuccess)
         }
     );
 
@@ -208,9 +225,9 @@ function doRequest(x, y, radius, save) {
         return_data = JSON.parse(data);
         var context = canvas.getContext("2d");
         for (i = 0; i < return_data.length; ++i) {
-            coord_x = x[i] * k + 300;
-            coord_y = -y[i] * k + 300;
-            drawPoint(context, coord_x, coord_y, return_data[i]);
+            var x = x[i] * k + 300;
+            var y = -y[i] * k + 300;
+            drawPoint(context, x, y, return_data[i]);
             addTableEntry(x[i], y[i], R, return_data[i]);
         }
     }
@@ -219,9 +236,45 @@ function doRequest(x, y, radius, save) {
         return_data = JSON.parse(data);
         var context = canvas.getContext("2d");
         for (i = 0; i < return_data.length; ++i) {
-            coord_x = x[i] * k + 300;
-            coord_y = -y[i] * k + 300;
-            drawPoint(context, coord_x, coord_y, return_data[i]);
+            var x = x[i] * k + 300;
+            var y = -y[i] * k + 300;
+            drawPoint(context, x, y, return_data[i]);
+        }
+    }
+}
+
+function doRRequest(radius) {
+    return_data = [];
+    var canvas = document.getElementById("graph");
+    $.ajax({
+            type: "post",
+            url: "controllerServlet",
+            data: {
+                radius: radius,
+                doSave: 0
+            },
+            success: (onAjaxSuccess)
+        }
+    );
+
+    function onAjaxSuccess(data) {
+        var return_data = JSON.parse(data);
+        var context = canvas.getContext("2d");
+        for (i = 0; i < return_data.length; ++i) {
+            var x = x[i] * k + 300;
+            var y = -y[i] * k + 300;
+            drawPoint(context, x, y, return_data[i]);
+            addTableEntry(x[i], y[i], R, return_data[i]);
+        }
+    }
+
+    function onAjaxSuccess1(data) {
+        var return_data = JSON.parse(data);
+        var context = canvas.getContext("2d");
+        for (i = 0; i < return_data.length; ++i) {
+            var x = x[i] * k + 300;
+            var y = -y[i] * k + 300;
+            drawPoint(context, x, y, return_data[i]);
         }
     }
 }
@@ -269,8 +322,3 @@ function initiateGraph() {
     }
 }
 
-window.onload = function () {
-    setRadius();
-    canvasFill();
-    initiateGraph();
-};

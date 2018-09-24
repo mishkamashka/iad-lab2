@@ -23,8 +23,9 @@ public class AreaCheckServlet extends HttpServlet {
 
     private ServletConfig config;
     private List<Point> points = null;
-    private double x, y, radius;
+    private double x, y, radius = 0;
     private String errorMsg;
+    int doSave;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -80,15 +81,18 @@ public class AreaCheckServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         errorMsg = "";
-        config.getServletContext().setAttribute("errorMsg", errorMsg); //recounting all points, then adding new point
-        try {
-            if (isInputValid(request)) {
-                if (points == null) {
-                    points = new ArrayList<>();
-                    config.getServletContext().setAttribute("points", points);
-                }
-                response.setContentType("text/html");
+        config.getServletContext().setAttribute("errorMsg", errorMsg);
+
+        if (points == null) {
+            points = new ArrayList<>();
+            config.getServletContext().setAttribute("points", points);
+        }
+        response.setContentType("text/html");
+
+        if (Integer.valueOf(request.getParameter("doSave")) == 0) { //TODO doSave not sent by doRequests in js
+            if (isRInputValid(request)) {
 
                 //checking all old points with new radius and setting updated values
                 for (int i = 0; i < points.size(); i++) {
@@ -100,28 +104,61 @@ public class AreaCheckServlet extends HttpServlet {
                         p.setInArea(false);
                     points.set(i, p);
                 }
-
-                //adding new point
-                Point currentPoint = new Point(x, y, radius, false);
-                if (checkArea(currentPoint))
-                    currentPoint.setInArea(true);
-                points.add(currentPoint);
             }
-        } catch (IllegalArgumentException e) {
-            errorMsg = "Not correct values.";
-        } finally {
-            response.sendRedirect("index.jsp");
+            //return new table, new radius, new graph as result
+        } else {
+            if (radius != 0) {
+                if (isXYInputValid(request)) {
+
+                    //adding new point
+                    Point currentPoint = new Point(x, y, radius, false);
+                    if (checkArea(currentPoint))
+                        currentPoint.setInArea(true);
+                    points.add(currentPoint);
+                } else {
+                    errorMsg = "X and Y values are not correct";
+                    //return it
+                }
+            } else {
+                errorMsg = "R is not set yet";
+                //return it
+            }
+
+            //return new point or all points with the new one
         }
+
+//        try {
+//
+//        } catch (IllegalArgumentException e) {
+//            errorMsg = "Not correct values.";
+//        } finally {
+//            response.sendRedirect("index.jsp");
+//        }
     }
 
-    private boolean isInputValid(HttpServletRequest request) throws IllegalArgumentException, NumberFormatException {
-        x = Double.valueOf(request.getParameter("coordinate_x"));
-        y = Double.valueOf(request.getParameter("coordinate_y"));
-        radius = Double.valueOf(request.getParameter("radius"));
-        if (x > -3 && x < 5 && y > -3 && y < 3 && radius > 2 && radius < 5)
+    private boolean isXYInputValid(HttpServletRequest request) throws IllegalArgumentException, NumberFormatException {
+        try {
+            x = Double.valueOf(request.getParameter("coordinate_x"));
+            y = Double.valueOf(request.getParameter("coordinate_y"));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        if (x > -3 && x < 5 && y > -3 && y < 3)
             return true;
         else
-            throw new IllegalArgumentException("Значения параметров выходят за диапазон");
+            return false;
+    }
+
+    private boolean isRInputValid(HttpServletRequest request) throws IllegalArgumentException, NumberFormatException {
+        try {
+            radius = Double.valueOf(request.getParameter("radius"));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        if (radius > 2 && radius < 5)
+            return true;
+        else
+            return false;
     }
 
     private boolean checkArea(Point point) {

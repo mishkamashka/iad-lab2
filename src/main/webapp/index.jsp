@@ -49,21 +49,25 @@
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
     </div>
-    <form enctype="application/json" name="form" action="controllerServlet" onsubmit="return isFormFilled()" method="post"
+    <form name="form" action="controllerServlet" onsubmit="return isXYFormFilled()" method="post"
           style="display: flex; flex-direction: column;">
-        <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' coordinate"
+        <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' in (-3; 5)"
                type="text" name="coordinate_x"
                id="coordinate_x" onclick="charCheckX()"/>
-        <input class="input__text input__global--margin input__global--size" placeholder="enter 'Y' coordinate"
+        <input class="input__text input__global--margin input__global--size" placeholder="enter 'Y' in (-3; 3)"
                type="text" name="coordinate_y"
                id="coordinate_y" onclick="charCheckY()"/>
-        <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' value"
+        <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check</button>
+        <%--<div class="error__msg">--%>
+        <%--</div>--%>
+    </form>
+    <form name="form" action="controllerServlet" onsubmit="return isRFormFilled()" method="post"
+          style="display: flex; flex-direction: column;">
+        <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
                type="text" name="radius"
                onchange="setRadius()"
                id="radius" onclick="charCheckR()"/>
-        <button onclick="submitAction()" class="btn btn--font input__global--margin input__global--size">check</button>
-        <div class="error__msg">
-        </div>
+        <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change radius</button>
     </form>
     <div class="wrap__table table ">
         <div class="row header__table">

@@ -1,7 +1,6 @@
-function isFormFilled() {
+function isXYFormFilled() {
     var y = document.getElementById('coordinate_y').value;
     var x = document.getElementById('coordinate_x').value;
-    var radius = document.getElementById('radius').value;
     if (y == "" || y <= -3 || y >= 3) {
         alert("Некорректное значение координаты У");
         return false;
@@ -10,6 +9,11 @@ function isFormFilled() {
         alert("Некорректное значение координаты X");
         return false;
     }
+    return true;
+}
+
+function isRFormFilled() {
+    var radius = document.getElementById('radius').value;
     if (radius == "" || radius <= 2 || radius >= 5) {
         alert("Некорректное значение переменной R");
         return false;
