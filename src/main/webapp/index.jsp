@@ -49,7 +49,7 @@
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
     </div>
-    <form name="form" action="controllerServlet" onsubmit="return isXYFormFilled()" method="post"
+    <form name="XYform" action="controllerServlet" onsubmit="return isXYFormFilled()" method="post"
           style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' in (-3; 5)"
                type="text" name="coordinate_x"
@@ -61,7 +61,7 @@
         <%--<div class="error__msg">--%>
         <%--</div>--%>
     </form>
-    <form name="form" action="controllerServlet" onsubmit="return isRFormFilled()" method="post"
+    <form name="Rform" action="controllerServlet" onsubmit="return isRFormFilled()" method="post"
           style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
                type="text" name="radius"

@@ -212,7 +212,7 @@ function doXYRequest(x, y) {
     $.ajax({
             type: "post",
             url: "controllerServlet",
-            data: {
+            data: { //TODO sent not by this thing
                 coordinate_x: x,
                 coordinate_y: y,
                 doSave: 1
