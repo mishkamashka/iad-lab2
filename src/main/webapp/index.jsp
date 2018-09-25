@@ -57,7 +57,8 @@
                id="coordinate_y" onclick="charCheckY()"/>
         <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check</button>
         <div class="error__msg">
-            <c:out value="${errorMsg}" escapeXml="false" />
+            <c:out value = "${'errorMsg'}" />
+            <c:out value = "${requestScope.errorMsg}" />
         <%--<%--%>
             <%--String errorMsg = (String) getServletConfig().getServletContext().getAttribute("errorMsg");--%>
             <%--if (errorMsg.equals("")) {--%>

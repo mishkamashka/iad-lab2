@@ -2,10 +2,7 @@ package se.ifmo.ru;
 
 import se.ifmo.ru.model.Point;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonReader;
+import javax.json.*;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,9 +20,8 @@ public class AreaCheckServlet extends HttpServlet {
 
     private ServletConfig config;
     private List<Point> points = null;
-    private double x, y, radius = 0;
+    private double x, y, radius = 2;
     private String errorMsg;
-    int doSave;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -40,10 +36,6 @@ public class AreaCheckServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/html; charset=UTF-8");
-        if (points == null) {
-            points = new ArrayList<>();
-            config.getServletContext().setAttribute("points", points);
-        }
         String delete = request.getParameter("delete");
         if (delete != null && delete.matches("true")) {
             points.clear();
@@ -84,6 +76,7 @@ public class AreaCheckServlet extends HttpServlet {
 
         errorMsg = "";
         config.getServletContext().setAttribute("errorMsg", errorMsg);
+        request.setAttribute("errorMsg", errorMsg);
 
         if (points == null) {
             points = new ArrayList<>();
@@ -91,7 +84,7 @@ public class AreaCheckServlet extends HttpServlet {
         }
         response.setContentType("text/html");
 
-        if (Integer.valueOf(request.getParameter("doSave")) == 0) { //TODO doSave not sent by doRequests in js
+        if (Integer.valueOf(request.getParameter("doSave")) == 0) {
             if (isRInputValid(request)) {
 
                 //checking all old points with new radius and setting updated values
@@ -105,8 +98,24 @@ public class AreaCheckServlet extends HttpServlet {
                     points.set(i, p);
                 }
             }
-            //return new table, new radius, new graph as result
+
+            response.setHeader("Content-Type", "text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            JsonArrayBuilder array = Json.createArrayBuilder();
+
+            for (Point point : points) {
+                array.add(Json.createObjectBuilder()
+                        .add("x", point.getX())
+                        .add("y", point.getY())
+                        .add("radius", point.getRadius())
+                        .add("isInArea", point.isInArea()));
+            }
+
+            JsonArray result = array.build();
+            out.println(result);
+
         } else {
+            radius = 3;
             if (radius != 0) {
                 if (isXYInputValid(request)) {
 
@@ -117,23 +126,26 @@ public class AreaCheckServlet extends HttpServlet {
                     points.add(currentPoint);
                 } else {
                     errorMsg = "X and Y values are not correct";
-                    //return it
                 }
             } else {
                 errorMsg = "R is not set yet";
-                //return it
             }
 
-            //return new point or all points with the new one
-        }
+            response.setHeader("Content-Type", "text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            JsonArrayBuilder array = Json.createArrayBuilder();
 
-//        try {
-//
-//        } catch (IllegalArgumentException e) {
-//            errorMsg = "Not correct values.";
-//        } finally {
-//            response.sendRedirect("index.jsp");
-//        }
+            for (Point point : points) {
+                array.add(Json.createObjectBuilder()
+                        .add("x", point.getX())
+                        .add("y", point.getY())
+                        .add("radius", point.getRadius())
+                        .add("isInArea", point.isInArea()));
+            }
+
+            JsonArray result = array.build();
+            out.println(result);
+        }
     }
 
     private boolean isXYInputValid(HttpServletRequest request) throws IllegalArgumentException, NumberFormatException {

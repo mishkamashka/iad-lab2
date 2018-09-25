@@ -1,5 +1,7 @@
 package se.ifmo.ru.model;
 
+import java.io.Serializable;
+
 public class Point {
 
     private final double x;
