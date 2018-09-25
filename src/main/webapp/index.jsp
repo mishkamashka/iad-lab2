@@ -1,9 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="se.ifmo.ru.AreaCheckServlet" %>
 <%@ page import="java.util.List" %>
 <%@ page import="se.ifmo.ru.model.Point" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,8 +48,7 @@
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
     </div>
-    <form name="XYform" action="controllerServlet" onsubmit="return isXYFormFilled()" method="post"
-          style="display: flex; flex-direction: column;">
+    <div name="XYform" style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' in (-3; 5)"
                type="text" name="coordinate_x"
                id="coordinate_x" onclick="charCheckX()"/>
@@ -58,17 +56,23 @@
                type="text" name="coordinate_y"
                id="coordinate_y" onclick="charCheckY()"/>
         <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check</button>
-        <%--<div class="error__msg">--%>
-        <%--</div>--%>
-    </form>
-    <form name="Rform" action="controllerServlet" onsubmit="return isRFormFilled()" method="post"
-          style="display: flex; flex-direction: column;">
+        <div class="error__msg">
+            <c:out value="${errorMsg}" escapeXml="false" />
+        <%--<%--%>
+            <%--String errorMsg = (String) getServletConfig().getServletContext().getAttribute("errorMsg");--%>
+            <%--if (errorMsg.equals("")) {--%>
+                <%--(errorMsg);--%>
+            <%--}--%>
+        <%--%>--%>
+        </div>
+    </div>
+    <div name="Rform" style="display: flex; flex-direction: column;"> <%--onsubmit="return isRFormFilled()"--%>
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
                type="text" name="radius"
                onchange="setRadius()"
                id="radius" onclick="charCheckR()"/>
         <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change radius</button>
-    </form>
+    </div>
     <div class="wrap__table table ">
         <div class="row header__table">
             <div class="cell">
