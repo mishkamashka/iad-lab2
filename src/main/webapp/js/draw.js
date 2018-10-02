@@ -1,4 +1,5 @@
 var R;
+var canvas, context;
 k = 50;
 x_val = [];
 y_val = [];
@@ -9,6 +10,32 @@ window.onload = function () {
     canvasFill();
     initiateGraph();
 };
+
+function initiateGraph() {
+    canvas = document.getElementById("graph");
+    context = canvas.getContext("2d");
+    var table = document.getElementById("results");
+    var length = table.rows.length;
+    var mostRecentIndex = 1;
+
+    /*for (var i = 2; i < length; ++i)
+    {
+        var rowPrev = table.rows[i - 1];
+        var rowCurr = table.rows[i];
+        if (parseFloat(rowPrev.cells[2].innerHTML) != parseFloat(rowCurr.cells[2].innerHTML))
+        {
+            mostRecentIndex = i;
+        }
+    }*/
+
+    for (var i = mostRecentIndex; i < length; ++i) {
+        var row = table.rows[i];
+        var X = parseFloat(row.cells[0].innerHTML);
+        var Y = parseFloat(row.cells[1].innerHTML);
+        doXYRequest([X], [Y], 0);
+    }
+}
+
 
 function setRadius() {
     R = document.getElementById('radius').value;
@@ -172,7 +199,6 @@ function submitRAction() {
 }
 
 function doXYRequest(x, y) {
-    var return_data = [];
     var canvas = document.getElementById("graph");
     $.ajax({
             type: "post",
@@ -187,25 +213,17 @@ function doXYRequest(x, y) {
     );
 
     function onAjaxSuccess(data) {
-        return_data = JSON.parse(data);
+        var return_data = JSON.parse(data);
         context = canvas.getContext("2d");
-        for (i = 0; i < return_data.length; ++i) {
-            x = x[i] * k + 300;
-            var y = -y[i] * k + 300;
-            drawPoint(context, x, y, return_data[i]);
-            addTableEntry(x[i], y[i], R, return_data[i]);
+        var x, y;
+        for (i = 0; i < return_data.length; i++) {
+            x = return_data[i].x * k + 300;
+            y = return_data[i].y * k + 300;
+            drawPoint(context, x, y, return_data[i].isInArea);
+            addTableEntry(x, y, return_data[i].radius, return_data[i].isInArea);
         }
     }
 
-    function onAjaxSuccess1(data) {
-        return_data = JSON.parse(data);
-        var context = canvas.getContext("2d");
-        for (i = 0; i < return_data.length; ++i) {
-            var x = x[i] * k + 300;
-            var y = -y[i] * k + 300;
-            drawPoint(context, x, y, return_data[i]);
-        }
-    }
 }
 
 function doRRequest(radius) {
@@ -223,67 +241,50 @@ function doRRequest(radius) {
     );
 
     function onAjaxSuccess(data) {
-        return_data = JSON.parse(data);
-        var context = canvas.getContext("2d");
-        for (i = 0; i < return_data.length; ++i) {
-            var x = x[i] * k + 300;
-            var y = -y[i] * k + 300;
-            drawPoint(context, x, y, return_data[i]);
-            addTableEntry(x[i], y[i], R, return_data[i]);
+        var return_data = JSON.parse(data);
+        // var table = '<div class=\"row header__table\">' +
+        //     '<div class=\"cell\">X</div>' +
+        //     '<div class=\"cell\">Y</div>' +
+        //     '<div class=\"cell\">R</div>' +
+        //     '<div class=\"cell\">Result</div>' +
+        //     '</div>';
+        context = canvas.getContext("2d");
+        row = document.getElementById('results');
+        var x, y;
+        for (i = 0; i < return_data.length; i++) {
+            x = return_data[i].x * k + 300;
+            y = return_data[i].y * k + 300;
+            drawPoint(context, x, y, return_data[i].isInArea);
+
+            var newRow = document.createElement("row" + i);
+            newRow.setAttribute('class', "row");
+            newRow.innerHTML = '<div class =\"row\">' +
+                '<div class =\"cell\" data-title=\"X\">' + x + '</div>'+
+                '<div class =\"cell\" data-title=\"Y\">' + y + '</div>' +
+                '<div class =\"cell\" data-title=\"R\">' + R + '</div>' +
+                '<div class =\"cell\" data-title=\"Result\">' + S + '</div>' +
+                '</div>';
+            row.appendChild(newRow);
+            // table.append('<div class =\"row\">' +
+            //     '<div class =\"cell\" data-title=\"X\">' + x + '</div>'+
+            //     '<div class =\"cell\" data-title=\"Y\">' + y + '</div>' +
+            //     '<div class =\"cell\" data-title=\"R\">' + R + '</div>' +
+            //     '<div class =\"cell\" data-title=\"Result\">' + S + '</div>' +
+            //     '</div>');
+            //addTableEntry(x, y, return_data[i].radius, return_data[i].isInArea);
         }
-    }
 
-    function onAjaxSuccess1(data) {
-        return_data = JSON.parse(data);
-        var context = canvas.getContext("2d");
-        for (i = 0; i < return_data.length; ++i) {
-            var x = x[i] * k + 300;
-            var y = -y[i] * k + 300;
-            drawPoint(context, x, y, return_data[i]);
-        }
-    }
-}
-
-function addTableEntry(x, y, R, S) {
-    var table = document.getElementById("results");
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-
-    cell1.innerHTML = x;
-    cell2.innerHTML = y;
-    cell3.innerHTML = R;
-    cell4.innerHTML = S == 1 ? "Yes" : "No";
-}
-
-function initiateGraph() {
-    var canvas = document.getElementById("graph");
-    var context = canvas.getContext("2d");
-    var table = document.getElementById("results");
-    var length = table.rows.length;
-    var mostRecentIndex = 1;
-    /*for (var i = 2; i < length; ++i)
-    {
-        var rowPrev = table.rows[i - 1];
-        var rowCurr = table.rows[i];
-        if (parseFloat(rowPrev.cells[2].innerHTML) != parseFloat(rowCurr.cells[2].innerHTML))
-        {
-            mostRecentIndex = i;
-        }
-    }*/
-
-    radiusText = document.forms[0].elements.rBox;
-    var currentRadius = parseInt(table.rows[mostRecentIndex].cells[2].innerHTML);
-    radiusText[currentRadius - 1].checked = true;
-    selectRadius(currentRadius - 1);
-
-    for (var i = mostRecentIndex; i < length; ++i) {
-        var row = table.rows[i];
-        var X = parseFloat(row.cells[0].innerHTML);
-        var Y = parseFloat(row.cells[1].innerHTML);
-        doRequest([X], [Y], 0);
     }
 }
+
+// function addTableEntry(x, y, R, S) {
+//     row = $('#results');
+//     row = document.getElementById('results');
+//     row.innerHTML = '<div class =\"row\">' +
+//         '<div class =\"cell\" data-title=\"X\">' + x + '</div>' +
+//         '<div class =\"cell\" data-title=\"Y\">' + y + '</div>' +
+//         '<div class =\"cell\" data-title=\"R\">' + R + '</div>' +
+//         '<div class =\"cell\" data-title=\"Result\">' + S + '</div>' +
+//         '</div>';
+// }
 

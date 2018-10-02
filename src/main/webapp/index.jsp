@@ -74,7 +74,7 @@
                id="radius" onclick="charCheckR()"/>
         <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change radius</button>
     </div>
-    <div class="wrap__table table ">
+    <div id="results" class="wrap__table table ">
         <div class="row header__table">
             <div class="cell">
                 X
@@ -90,27 +90,27 @@
             </div>
         </div>
 
-        <%
-            List<Point> points = (ArrayList<Point>) getServletConfig().getServletContext().getAttribute("points");
-            if (points != null) {
-                for (Point point : points) {
-                    out.println("<div class =\"row\">");
-                    out.println("<div class =\"cell\" data-title=\"X\">");
-                    out.println(point.getX());
-                    out.println("</div>");
-                    out.println("<div class =\"cell\" data-title=\"Y\">");
-                    out.println(point.getY());
-                    out.println("</div>");
-                    out.println("<div class =\"cell\" data-title=\"R\">");
-                    out.println(point.getRadius());
-                    out.println("</div>");
-                    out.println("<div class =\"cell\" data-title=\"Result\">");
-                    out.println(point.isInArea());
-                    out.println("</div>");
-                    out.println("</div>");
-                }
-            }
-        %>
+        <%--<%--%>
+            <%--List<Point> points = (ArrayList<Point>) getServletConfig().getServletContext().getAttribute("points");--%>
+            <%--if (points != null) {--%>
+                <%--for (Point point : points) {--%>
+                    <%--out.println("<div class =\"row\">");--%>
+                    <%--out.println("<div class =\"cell\" data-title=\"X\">");--%>
+                    <%--out.println(point.getX());--%>
+                    <%--out.println("</div>");--%>
+                    <%--out.println("<div class =\"cell\" data-title=\"Y\">");--%>
+                    <%--out.println(point.getY());--%>
+                    <%--out.println("</div>");--%>
+                    <%--out.println("<div class =\"cell\" data-title=\"R\">");--%>
+                    <%--out.println(point.getRadius());--%>
+                    <%--out.println("</div>");--%>
+                    <%--out.println("<div class =\"cell\" data-title=\"Result\">");--%>
+                    <%--out.println(point.isInArea());--%>
+                    <%--out.println("</div>");--%>
+                    <%--out.println("</div>");--%>
+                <%--}--%>
+            <%--}--%>
+        <%--%>--%>
     </div>
 </div>
 
