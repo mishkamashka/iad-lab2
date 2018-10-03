@@ -20,7 +20,7 @@ public class AreaCheckServlet extends HttpServlet {
 
     private ServletConfig config;
     private List<Point> points = null;
-    private double x, y, radius = 2;
+    private double x, y, radius = 3;
     private String errorMsg;
 
     @Override

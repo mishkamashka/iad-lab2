@@ -206,7 +206,7 @@ function onAjaxSuccess(data) {
     row = document.getElementById('results');
     var x, y;
     if (return_data.length > 1) {
-        for (i = 0; i < return_data.length; i++) {
+        for (i = 0; i < return_data.length - 1; i++) {
             x = return_data[i].x * k + 300;
             y = return_data[i].y * k + 300;
             drawPoint(context, x, y, return_data[i].isInArea);
