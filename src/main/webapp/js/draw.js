@@ -6,7 +6,7 @@ y_val = [];
 
 
 window.onload = function () {
-    setRadius();
+    //setRadius();
     canvasFill();
     initiateGraph();
 };
