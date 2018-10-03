@@ -1,4 +1,4 @@
-function isXYFormFilled() {
+function isXYFormValid() {
     var y = document.getElementById('coordinate_y').value;
     var x = document.getElementById('coordinate_x').value;
     if (y == "" || y <= -3 || y >= 3) {
@@ -12,7 +12,7 @@ function isXYFormFilled() {
     return true;
 }
 
-function isRFormFilled() {
+function isRFormValid() {
     var radius = document.getElementById('radius').value;
     if (radius == "" || radius <= 2 || radius >= 5) {
         alert("Некорректное значение переменной R");

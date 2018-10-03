@@ -115,10 +115,8 @@ public class AreaCheckServlet extends HttpServlet {
             out.println(result);
 
         } else {
-            //radius = 3;
             if (radius != 0) {
                 if (isXYInputValid(request)) {
-
                     //adding new point
                     Point currentPoint = new Point(x, y, radius, false);
                     if (checkArea(currentPoint))

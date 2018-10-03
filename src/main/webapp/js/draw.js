@@ -154,19 +154,21 @@ function drawFigure(context) {
 }
 
 function submitXYAction() {
+    if (isXYFormValid()) {
     var x_value = Number(document.getElementById('coordinate_x').value);
     var y_value = Number(document.getElementById('coordinate_y').value);
     doXYRequest(x_value, y_value);
+    }
 }
 
 function submitRAction() {
-    var radius = Number(document.getElementById('radius').value);
-    var setRadius = Number(R);
-    if (setRadius != radius) {
-        doRRequest(radius);
-        R = radius;
+    if (isRFormValid()) {
+        var radius = Number(document.getElementById('radius').value);
+        if (Number(R) != radius) {
+            doRRequest(radius);
+            R = radius;
+        }
     }
-
 }
 
 function doXYRequest(x, y) {

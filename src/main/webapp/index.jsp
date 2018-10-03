@@ -47,7 +47,7 @@
         <div class="interactive_element">
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
-    </div>
+    </div> <%--TODO: validation on client does not work--%>
     <div name="XYform" style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' in (-3; 5)"
                type="text" name="coordinate_x"
