@@ -85,7 +85,8 @@ function drawAxis(context) {
     //Draw arrows
     context.beginPath();
     context.strokeStyle = "black";
-    context.moveTo(590, 290);;
+    context.moveTo(590, 290);
+    ;
     context.lineTo(600, 300);
     context.lineTo(590, 310);
 
@@ -155,9 +156,9 @@ function drawFigure(context) {
 
 function submitXYAction() {
     if (isXYFormValid()) {
-    var x_value = Number(document.getElementById('coordinate_x').value);
-    var y_value = Number(document.getElementById('coordinate_y').value);
-    doXYRequest(x_value, y_value);
+        var x_value = Number(document.getElementById('coordinate_x').value);
+        var y_value = Number(document.getElementById('coordinate_y').value);
+        doXYRequest(x_value, y_value);
     }
 }
 
@@ -204,19 +205,27 @@ function onAjaxSuccess(data) {
     context = canvas.getContext("2d");
     row = document.getElementById('results');
     var x, y;
-    for (i = 0; i < return_data.length; i++) {
-        x = return_data[i].x * k + 300;
-        y = return_data[i].y * k + 300;
-        drawPoint(context, x, y, return_data[i].isInArea);
+    if (return_data.length > 1) {
+        for (i = 0; i < return_data.length; i++) {
+            x = return_data[i].x * k + 300;
+            y = return_data[i].y * k + 300;
+            drawPoint(context, x, y, return_data[i].isInArea);
 
-        var newRow = document.createElement('div');
-        newRow.setAttribute('class', 'row');
-        newRow.innerHTML = '<div class =\"cell\" data-title=\"X\">' + return_data[i].x + '</div>'+
-            '<div class =\"cell\" data-title=\"Y\">' + return_data[i].y + '</div>' +
-            '<div class =\"cell\" data-title=\"R\">' + return_data[i].radius + '</div>' +
-            '<div class =\"cell\" data-title=\"Result\">' + return_data[i].isInArea + '</div>' +
-            '</div>';
-        row.appendChild(newRow);
+            var newRow = document.createElement('div');
+            newRow.setAttribute('class', 'row');
+            newRow.innerHTML = '<div class =\"cell\" data-title=\"X\">' + return_data[i].x + '</div>' +
+                '<div class =\"cell\" data-title=\"Y\">' + return_data[i].y + '</div>' +
+                '<div class =\"cell\" data-title=\"R\">' + return_data[i].radius + '</div>' +
+                '<div class =\"cell\" data-title=\"Result\">' + return_data[i].isInArea + '</div>' +
+                '</div>';
+            row.appendChild(newRow);
+        }
     }
+    errorMsg = return_data[return_data.length - 1].errorMsg;
+    if (errorMsg != "") {
+        error = document.getElementById("error_msg");
+        error.innerText = errorMsg;
+    }
+
 
 }

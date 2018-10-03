@@ -47,7 +47,7 @@
         <div class="interactive_element">
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
-    </div> <%--TODO: validation on client does not work--%>
+    </div>
     <div name="XYform" style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' in (-3; 5)"
                type="text" name="coordinate_x"
@@ -56,9 +56,9 @@
                type="text" name="coordinate_y"
                id="coordinate_y" onclick="charCheckY()"/>
         <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check</button>
-        <div class="error__msg">
-            <c:out value = "${'errorMsg'}" />
-            <c:out value = "${requestScope.errorMsg}" />
+        <div id="error_msg" class="error__msg">
+            <%--<c:out value = "${'errorMsg'}" />--%>
+            <%--<c:out value = "${requestScope.errorMsg}" />--%>
         <%--<%--%>
             <%--String errorMsg = (String) getServletConfig().getServletContext().getAttribute("errorMsg");--%>
             <%--if (errorMsg.equals("")) {--%>

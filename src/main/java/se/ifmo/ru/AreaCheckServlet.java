@@ -75,8 +75,6 @@ public class AreaCheckServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         errorMsg = "";
-        config.getServletContext().setAttribute("errorMsg", errorMsg);
-        request.setAttribute("errorMsg", errorMsg);
 
         if (points == null) {
             points = new ArrayList<>();
@@ -97,6 +95,8 @@ public class AreaCheckServlet extends HttpServlet {
                         p.setInArea(false);
                     points.set(i, p);
                 }
+            } else {
+                errorMsg = "R value is not valid";
             }
 
             response.setHeader("Content-Type", "text/html; charset=UTF-8");
@@ -111,6 +111,7 @@ public class AreaCheckServlet extends HttpServlet {
                         .add("isInArea", point.isInArea()));
             }
 
+            array.add(Json.createObjectBuilder().add("errorMsg", errorMsg));
             JsonArray result = array.build();
             out.println(result);
 
@@ -123,7 +124,7 @@ public class AreaCheckServlet extends HttpServlet {
                         currentPoint.setInArea(true);
                     points.add(currentPoint);
                 } else {
-                    errorMsg = "X and Y values are not correct";
+                    errorMsg = "X and Y values are not valid";
                 }
             } else {
                 errorMsg = "R is not set yet";
@@ -141,6 +142,7 @@ public class AreaCheckServlet extends HttpServlet {
                         .add("isInArea", point.isInArea()));
             }
 
+            array.add(Json.createObjectBuilder().add("errorMsg", errorMsg));
             JsonArray result = array.build();
             out.println(result);
         }
