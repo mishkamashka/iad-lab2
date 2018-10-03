@@ -57,20 +57,11 @@
                id="coordinate_y" onclick="charCheckY()"/>
         <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check</button>
         <div id="error_msg" class="error__msg">
-            <%--<c:out value = "${'errorMsg'}" />--%>
-            <%--<c:out value = "${requestScope.errorMsg}" />--%>
-        <%--<%--%>
-            <%--String errorMsg = (String) getServletConfig().getServletContext().getAttribute("errorMsg");--%>
-            <%--if (errorMsg.equals("")) {--%>
-                <%--(errorMsg);--%>
-            <%--}--%>
-        <%--%>--%>
         </div>
     </div>
-    <div name="Rform" style="display: flex; flex-direction: column;"> <%--onsubmit="return isRFormFilled()"--%>
+    <div name="Rform" style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
                type="text" name="radius"
-               onchange="setRadius()"
                id="radius" onclick="charCheckR()"/>
         <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change radius</button>
     </div>
@@ -89,33 +80,12 @@
                 Result
             </div>
         </div>
-
-        <%--<%--%>
-            <%--List<Point> points = (ArrayList<Point>) getServletConfig().getServletContext().getAttribute("points");--%>
-            <%--if (points != null) {--%>
-                <%--for (Point point : points) {--%>
-                    <%--out.println("<div class =\"row\">");--%>
-                    <%--out.println("<div class =\"cell\" data-title=\"X\">");--%>
-                    <%--out.println(point.getX());--%>
-                    <%--out.println("</div>");--%>
-                    <%--out.println("<div class =\"cell\" data-title=\"Y\">");--%>
-                    <%--out.println(point.getY());--%>
-                    <%--out.println("</div>");--%>
-                    <%--out.println("<div class =\"cell\" data-title=\"R\">");--%>
-                    <%--out.println(point.getRadius());--%>
-                    <%--out.println("</div>");--%>
-                    <%--out.println("<div class =\"cell\" data-title=\"Result\">");--%>
-                    <%--out.println(point.isInArea());--%>
-                    <%--out.println("</div>");--%>
-                    <%--out.println("</div>");--%>
-                <%--}--%>
-            <%--}--%>
-        <%--%>--%>
     </div>
 </div>
 
 <footer class="footer">
     <div class="footer__block">
+        <%--TODO: change footer--%>
         <p>Measured time:<br/>
         </p>
     </div>

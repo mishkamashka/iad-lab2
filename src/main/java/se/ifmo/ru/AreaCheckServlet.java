@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,45 +34,11 @@ public class AreaCheckServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setHeader("Content-Type", "text/html; charset=UTF-8");
-        String delete = request.getParameter("delete");
-        if (delete != null && delete.matches("true")) {
-            points.clear();
-            response.sendRedirect("/lab7/lab7.jsp");
-        } else {
-            PrintWriter out = response.getWriter();
-            String xString = request.getParameter("x_coord");
-            String yString = request.getParameter("y_coord");
-            String rString = request.getParameter("rBox");
-            boolean doSave = (Integer.parseInt(request.getParameter("doSave")) != 0);
-
-
-            JsonReader jsonReader = Json.createReader(new StringReader(xString));
-            JsonArray x_array = jsonReader.readArray();
-            jsonReader = Json.createReader(new StringReader(yString));
-            JsonArray y_array = jsonReader.readArray();
-            int r = Integer.parseInt(rString);
-
-            JsonArrayBuilder result = Json.createArrayBuilder();
-
-            for (int i = 0; i < x_array.size(); ++i) {
-                double x = x_array.getJsonNumber(i).doubleValue();
-                double y = y_array.getJsonNumber(i).doubleValue();
-                boolean isInArea = checkArea(new Point(x, y, r, false));
-                if (doSave)
-                    points.add(new Point(x, y, r, isInArea));
-                result.add(isInArea);
-            }
-            JsonArray res = result.build();
-
-            out.println(res);
-        }
-
+        this.doPost(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         errorMsg = "";
 
         if (points == null) {
