@@ -115,7 +115,7 @@ public class AreaCheckServlet extends HttpServlet {
             out.println(result);
 
         } else {
-            radius = 3;
+            //radius = 3;
             if (radius != 0) {
                 if (isXYInputValid(request)) {
 

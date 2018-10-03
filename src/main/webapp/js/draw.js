@@ -1,4 +1,4 @@
-var R;
+var R = 3;
 var canvas, context;
 k = 50;
 x_val = [];
@@ -38,9 +38,11 @@ function initiateGraph() {
 
 
 function setRadius() {
-    R = document.getElementById('radius').value;
-    if (R == "") {
+    r = document.getElementById('radius').value;
+    if (r == "") {
         R = 3;
+    } else {
+        R = r;
     }
 }
 
@@ -212,32 +214,9 @@ function doXYRequest(x, y) {
         }
     );
 
-    function onAjaxSuccess(data) {
-        var return_data = JSON.parse(data);
-        context = canvas.getContext("2d");
-        row = document.getElementById('results');
-        var x, y;
-        for (i = 0; i < return_data.length; i++) {
-            x = return_data[i].x * k + 300;
-            y = return_data[i].y * k + 300;
-            drawPoint(context, x, y, return_data[i].isInArea);
-
-            var newRow = document.createElement('div');
-            newRow.setAttribute('class', 'row');
-            newRow.innerHTML = '<div class =\"cell\" data-title=\"X\">' + return_data[i].x + '</div>'+
-                '<div class =\"cell\" data-title=\"Y\">' + return_data[i].y + '</div>' +
-                '<div class =\"cell\" data-title=\"R\">' + return_data[i].radius + '</div>' +
-                '<div class =\"cell\" data-title=\"Result\">' + return_data[i].isInArea + '</div>' +
-                '</div>';
-            row.appendChild(newRow);
-        }
-
-    }
-
 }
 
 function doRRequest(radius) {
-    var return_data = [];
     var canvas = document.getElementById("graph");
     $.ajax({
             type: "post",
@@ -249,48 +228,6 @@ function doRRequest(radius) {
             success: (onAjaxSuccess)
         }
     );
-
-    function onAjaxSuccess(data) {
-        var return_data = JSON.parse(data);
-        // var table = '<div class=\"row header__table\">' +
-        //     '<div class=\"cell\">X</div>' +
-        //     '<div class=\"cell\">Y</div>' +
-        //     '<div class=\"cell\">R</div>' +
-        //     '<div class=\"cell\">Result</div>' +
-        //     '</div>';
-        context = canvas.getContext("2d");
-        row = document.getElementById('results');
-        var x, y;
-        for (i = 0; i < return_data.length; i++) {
-            x = return_data[i].x * k + 300;
-            y = return_data[i].y * k + 300;
-            drawPoint(context, x, y, return_data[i].isInArea);
-
-            // var newRow = document.createElement('row' + i);
-            // newRow.setAttribute('class', "row");
-            // newRow.innerHTML = '<div class =\"row\">' +
-            //     '<div class =\"cell\" data-title=\"X\">' + x + '</div>'+
-            //     '<div class =\"cell\" data-title=\"Y\">' + y + '</div>' +
-            //     '<div class =\"cell\" data-title=\"R\">' + R + '</div>' +
-            //     '<div class =\"cell\" data-title=\"Result\">' + S + '</div>' +
-            //     '</div>';
-            row.innerHTML = '<div class =\"row\">' +
-                '<div class =\"cell\" data-title=\"X\">' + x + '</div>'+
-                '<div class =\"cell\" data-title=\"Y\">' + y + '</div>' +
-                '<div class =\"cell\" data-title=\"R\">' + R + '</div>' +
-                '<div class =\"cell\" data-title=\"Result\">' + S + '</div>' +
-                '</div>';
-            // row.appendChild(newRow);
-            // table.append('<div class =\"row\">' +
-            //     '<div class =\"cell\" data-title=\"X\">' + x + '</div>'+
-            //     '<div class =\"cell\" data-title=\"Y\">' + y + '</div>' +
-            //     '<div class =\"cell\" data-title=\"R\">' + R + '</div>' +
-            //     '<div class =\"cell\" data-title=\"Result\">' + S + '</div>' +
-            //     '</div>');
-            //addTableEntry(x, y, return_data[i].radius, return_data[i].isInArea);
-        }
-
-    }
 }
 
 // function addTableEntry(x, y, R, S) {
@@ -304,3 +241,24 @@ function doRRequest(radius) {
 //         '</div>';
 // }
 
+function onAjaxSuccess(data) {
+    var return_data = JSON.parse(data);
+    context = canvas.getContext("2d");
+    row = document.getElementById('results');
+    var x, y;
+    for (i = 0; i < return_data.length; i++) {
+        x = return_data[i].x * k + 300;
+        y = return_data[i].y * k + 300;
+        drawPoint(context, x, y, return_data[i].isInArea);
+
+        var newRow = document.createElement('div');
+        newRow.setAttribute('class', 'row');
+        newRow.innerHTML = '<div class =\"cell\" data-title=\"X\">' + return_data[i].x + '</div>'+
+            '<div class =\"cell\" data-title=\"Y\">' + return_data[i].y + '</div>' +
+            '<div class =\"cell\" data-title=\"R\">' + return_data[i].radius + '</div>' +
+            '<div class =\"cell\" data-title=\"Result\">' + return_data[i].isInArea + '</div>' +
+            '</div>';
+        row.appendChild(newRow);
+    }
+
+}
