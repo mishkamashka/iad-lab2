@@ -4,9 +4,7 @@ k = 50;
 x_val = [];
 y_val = [];
 
-
 window.onload = function () {
-    //setRadius();
     canvasFill();
     initiateGraph();
 };
@@ -14,36 +12,6 @@ window.onload = function () {
 function initiateGraph() {
     canvas = document.getElementById("graph");
     context = canvas.getContext("2d");
-    // var table = document.getElementById("results");
-    // var length = table.rows.length;
-    // var mostRecentIndex = 1;
-
-    /*for (var i = 2; i < length; ++i)
-    {
-        var rowPrev = table.rows[i - 1];
-        var rowCurr = table.rows[i];
-        if (parseFloat(rowPrev.cells[2].innerHTML) != parseFloat(rowCurr.cells[2].innerHTML))
-        {
-            mostRecentIndex = i;
-        }
-    }*/
-
-    // for (var i = mostRecentIndex; i < length; ++i) {
-    //     var row = table.rows[i];
-    //     var X = parseFloat(row.cells[0].innerHTML);
-    //     var Y = parseFloat(row.cells[1].innerHTML);
-    //     doRequest([X], [Y], 0);
-    // }
-}
-
-
-function setRadius() {
-    r = document.getElementById('radius').value;
-    if (r == "") {
-        R = 3;
-    } else {
-        R = r;
-    }
 }
 
 function clear1() {
@@ -193,7 +161,8 @@ function submitXYAction() {
 
 function submitRAction() {
     var radius = Number(document.getElementById('radius').value);
-    if (R != radius) {
+    var setRadius = Number(R);
+    if (setRadius != radius) {
         doRRequest(radius);
         R = radius;
     }
@@ -201,7 +170,6 @@ function submitRAction() {
 }
 
 function doXYRequest(x, y) {
-    var canvas = document.getElementById("graph");
     $.ajax({
             type: "post",
             url: "controllerServlet",
@@ -217,7 +185,6 @@ function doXYRequest(x, y) {
 }
 
 function doRRequest(radius) {
-    var canvas = document.getElementById("graph");
     $.ajax({
             type: "post",
             url: "controllerServlet",
@@ -229,17 +196,6 @@ function doRRequest(radius) {
         }
     );
 }
-
-// function addTableEntry(x, y, R, S) {
-//     row = $('#results');
-//     row = document.getElementById('results');
-//     row.innerHTML = '<div class =\"row\">' +
-//         '<div class =\"cell\" data-title=\"X\">' + x + '</div>' +
-//         '<div class =\"cell\" data-title=\"Y\">' + y + '</div>' +
-//         '<div class =\"cell\" data-title=\"R\">' + R + '</div>' +
-//         '<div class =\"cell\" data-title=\"Result\">' + S + '</div>' +
-//         '</div>';
-// }
 
 function onAjaxSuccess(data) {
     var return_data = JSON.parse(data);
