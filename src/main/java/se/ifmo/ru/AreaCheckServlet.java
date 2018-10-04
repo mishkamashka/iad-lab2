@@ -22,7 +22,7 @@ public class AreaCheckServlet extends HttpServlet {
     private String errorMsg;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         this.config = config;
     }
 

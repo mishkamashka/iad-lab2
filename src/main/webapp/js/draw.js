@@ -12,7 +12,7 @@ window.onresize = function () {
     canvas = document.getElementById("graph");
     graphWidth = canvas.width;
     context = canvas.getContext("2d");
-}
+};
 
 function initiateGraph() {
     canvas = document.getElementById("graph");
@@ -40,7 +40,7 @@ function setPoint(event) {
     doXYRequest(real_x, real_y);
 }
 
-function drawPoint(context, x, y, doesBelong) {
+function drawPoint(context, x, y, doesBelong) { //TODO: different colours for true and false
     context.beginPath();
     if (doesBelong == "true") {
         context.fillStyle = "Blue";
