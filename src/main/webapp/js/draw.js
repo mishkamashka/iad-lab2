@@ -16,10 +16,9 @@ function initiateGraph() {
 
 function canvasFill() {
     canvas = document.getElementById("graph");
-    canvas.width = canvas.width;
     context = canvas.getContext("2d");
     if (R > 0) {
-        drawFigure(context);
+        drawFigures(context);
     }
     drawAxis(context);
 }
@@ -50,33 +49,32 @@ function drawPoint(context, x, y, doesBelong) {
 }
 
 function drawAxis(context) {
-
     context.beginPath();
     //Draw axis
-    context.strokeStyle = "#666666";
     context.moveTo(0, 300);
     context.lineTo(600, 300);
     context.moveTo(300, 0);
     context.lineTo(300, 600);
     context.closePath();
+    context.strokeStyle = "black";
     context.stroke();
+
     //Draw arrows
     context.beginPath();
-    context.strokeStyle = "black";
     context.moveTo(590, 290);
-    ;
     context.lineTo(600, 300);
     context.lineTo(590, 310);
 
     context.moveTo(290, 10);
     context.lineTo(300, 0);
     context.lineTo(310, 10);
-    //Do the stroke
 
+    //Do the stroke
+    context.strokeStyle = "black";
     context.stroke();
-    context.closePath();
+
     //Label axis
-    context.font = "22px Georgia";
+    context.font = "22px Courier";
     context.textBaseline = "top";
     context.textAlign = "left";
     context.fillStyle = "black";
@@ -84,36 +82,46 @@ function drawAxis(context) {
     context.fillText("X", 585, 310);
 
     //Draw measures if radius is set
-    if (R > 0) {
+    if (Number(R) > 0) {
         context.beginPath();
-        pixelsForRadius = R * k;
+        pixelsForRadius = Number(R) * k;
+
         //Draw x measures
-        context.moveTo(300 - pixelsForRadius, 295);
-        context.lineTo(300 - pixelsForRadius, 305);
-        context.moveTo(300 - pixelsForRadius / 2, 295);
-        context.lineTo(300 - pixelsForRadius / 2, 305);
-        context.moveTo(300 + pixelsForRadius, 295);
-        context.lineTo(300 + pixelsForRadius, 305);
-        context.moveTo(300 + pixelsForRadius / 2, 295);
-        context.lineTo(300 + pixelsForRadius / 2, 305);
+        for (l = 40; l < 280; l = l + 40) {
+            context.moveTo(300 - l, 295);
+            context.lineTo(300 - l, 305);
+            context.moveTo(300 - (l - 20), 298);
+            context.lineTo(300 - (l - 20), 302);
+            context.moveTo(300 + l, 295);
+            context.lineTo(300 + l, 305);
+            context.moveTo(300 + (l - 20), 298);
+            context.lineTo(300 + (l - 20), 302);
+
+            context.moveTo(295, 300 - l);
+            context.lineTo(305, 300 - l);
+            context.moveTo(298, 300 - (l - 20));
+            context.lineTo(302, 300 - (l - 20));
+            context.moveTo(295, 300 + l);
+            context.lineTo(305, 300 + l);
+            context.moveTo(298, 300 + (l - 20));
+            context.lineTo(302, 300 + (l - 20));
+        }
+
+        // context.moveTo(300 - pixelsForRadius, 295);
+        // context.lineTo(300 - pixelsForRadius, 305);
+        // context.moveTo(300 - pixelsForRadius / 2, 295);
+        // context.lineTo(300 - pixelsForRadius / 2, 305);
+        // context.moveTo(300 + pixelsForRadius, 295);
+        // context.lineTo(300 + pixelsForRadius, 305);
+        // context.moveTo(300 + pixelsForRadius / 2, 295);
+        // context.lineTo(300 + pixelsForRadius / 2, 305);
         context.strokeStyle = "black";
         context.stroke();
-        //Draw y measures
-        context.moveTo(295, 300 - pixelsForRadius);
-        context.lineTo(305, 300 - pixelsForRadius);
-        context.moveTo(295, 300 - pixelsForRadius / 2);
-        context.lineTo(305, 300 - pixelsForRadius / 2);
-        context.moveTo(295, 300 + pixelsForRadius);
-        context.lineTo(305, 300 + pixelsForRadius);
-        context.moveTo(295, 300 + pixelsForRadius / 2);
-        context.lineTo(305, 300 + pixelsForRadius / 2);
-        context.stroke();
-        context.closePath();
     }
 }
 
-function drawFigure(context) {
-    pixelsForRadius = R * k;
+function drawFigures(context) {
+    pixelsForRadius = R * 40;
     context.beginPath();
     context.fillStyle = "#5c99ED";
     context.strokeStyle = "#5c99ED";
@@ -204,6 +212,7 @@ function onAjaxSuccess(data) {
     var return_data = JSON.parse(data);
     context = canvas.getContext("2d");
     row = document.getElementById('results');
+    canvasFill();
     var x, y;
     if (return_data.length > 1) {
         for (i = 0; i < return_data.length - 1; i++) {
@@ -227,13 +236,8 @@ function onAjaxSuccess(data) {
             '<div class=\"cell\">R</div>' +
             '<div class=\"cell\">Result</div>' +
             '</div>';
-        canvasFill();
     }
     errorMsg = return_data[return_data.length - 1].errorMsg;
-    if (errorMsg != "") {
-        error = document.getElementById("error_msg");
-        error.innerText = errorMsg;
-    }
-
-
+    error = document.getElementById("error_msg");
+    error.innerText = errorMsg;
 }

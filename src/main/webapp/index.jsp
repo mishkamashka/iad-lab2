@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    <div id="ClearBtn" style="display: flex; flex-direction: column;">
+    <div id="ClearBtn" style="display: flex; flex-direction: column;"> <%--TODO: make this btn appear only when table is filled--%>
         <button onclick="clearList()" class="btn btn--font input__global--margin input__global--size">clear list</button>
     </div>
 </div>

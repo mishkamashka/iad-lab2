@@ -267,6 +267,7 @@ a:link {
   border: 0;
   position: relative;
   cursor: pointer;
+  outline: unset;
 }
 
 .btn--font {
