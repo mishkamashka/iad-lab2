@@ -3,7 +3,6 @@ package se.ifmo.ru;
 import se.ifmo.ru.model.Point;
 
 import javax.json.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,112 +46,99 @@ public class AreaCheckServlet extends HttpServlet {
             config.getServletContext().setAttribute("points", points);
         }
         response.setContentType("text/html");
-
-        if (Integer.valueOf(request.getParameter("doSave")) != -1) {
-
-            if (Integer.valueOf(request.getParameter("doSave")) == 0) {
-                if (isRInputValid(request)) {
-
-                    //checking all old points with new radius and setting updated values
-                    for (int i = 0; i < points.size(); i++) {
-                        Point p = points.get(i);
-                        p.setRadius(radius);
-                        if (checkArea(p))
-                            p.setInArea(true);
-                        else
-                            p.setInArea(false);
-                        points.set(i, p);
-                    }
-                } else {
-                    errorMsg = "R value is not valid";
-                }
-
-                response.setHeader("Content-Type", "text/html; charset=UTF-8");
-                PrintWriter out = response.getWriter();
-                JsonArrayBuilder array = Json.createArrayBuilder();
-
-                for (Point point : points) {
-                    array.add(Json.createObjectBuilder()
-                            .add("x", point.getX())
-                            .add("y", point.getY())
-                            .add("radius", point.getRadius())
-                            .add("isInArea", point.isInArea()));
-                }
-
-                array.add(Json.createObjectBuilder().add("errorMsg", errorMsg));
-                JsonArray result = array.build();
-                out.println(result);
-
-            } else {
-                if (radius != 0) {
-                    if (isXYInputValid(request)) {
-                        //adding new point
-                        Point currentPoint = new Point(x, y, radius, false);
-                        if (checkArea(currentPoint))
-                            currentPoint.setInArea(true);
-                        points.add(currentPoint);
+        if (isDoSaveInputValid(request)) {
+            switch (Integer.valueOf(request.getParameter("doSave"))) {
+                case 0:
+                    if (isRInputValid(request)) {
+                        //checking all old points with new radius and setting updated values
+                        for (int i = 0; i < points.size(); i++) {
+                            Point p = points.get(i);
+                            p.setRadius(radius);
+                            if (checkArea(p))
+                                p.setInArea(true);
+                            else
+                                p.setInArea(false);
+                            points.set(i, p);
+                        }
                     } else {
-                        errorMsg = "X and Y values are not valid";
+                        errorMsg = "R value is not valid";
                     }
-                } else {
-                    errorMsg = "R is not set yet";
-                }
+                    response.getWriter().println(this.createResponse(response));
+                    break;
 
-                response.setHeader("Content-Type", "text/html; charset=UTF-8");
-                PrintWriter out = response.getWriter();
-                JsonArrayBuilder array = Json.createArrayBuilder();
 
-                for (Point point : points) {
-                    array.add(Json.createObjectBuilder()
-                            .add("x", point.getX())
-                            .add("y", point.getY())
-                            .add("radius", point.getRadius())
-                            .add("isInArea", point.isInArea()));
-                }
+                case 1:
+                    if (radius != 0) {
+                        if (isXYInputValid(request)) {
+                            //add new point
+                            Point currentPoint = new Point(x, y, radius, false);
+                            if (checkArea(currentPoint))
+                                currentPoint.setInArea(true);
+                            points.add(currentPoint);
+                        } else {
+                            errorMsg = "X and Y values are not valid";
+                        }
+                    } else {
+                        errorMsg = "R is not set yet";
+                    }
+                    response.getWriter().println(this.createResponse(response));
+                    break;
 
-                array.add(Json.createObjectBuilder().add("errorMsg", errorMsg));
-                JsonArray result = array.build();
-                out.println(result);
+                case -1:
+                    points = new ArrayList<>();
+                    response.getWriter().println(this.createResponse(response));
             }
-        } else {
-            points = new ArrayList<>();
-            response.setHeader("Content-Type", "text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            JsonArrayBuilder array = Json.createArrayBuilder();
-            array.add(Json.createObjectBuilder().add("errorMsg", ""));
-            JsonArray result = array.build();
-            out.println(result);
-        }
+        } //TODO: else doSave invalid
     }
 
-    private boolean isXYInputValid(HttpServletRequest request) throws IllegalArgumentException, NumberFormatException {
+    private boolean isXYInputValid(HttpServletRequest request) throws IllegalArgumentException {
         try {
             x = Double.valueOf(request.getParameter("coordinate_x"));
             y = Double.valueOf(request.getParameter("coordinate_y"));
         } catch (NumberFormatException e) {
             return false;
         }
-        if (x > -3 && x < 5 && y > -3 && y < 3)
-            return true;
-        else
-            return false;
+        return (x > -3 && x < 5 && y > -3 && y < 3);
     }
 
-    private boolean isRInputValid(HttpServletRequest request) throws IllegalArgumentException, NumberFormatException {
+    private boolean isRInputValid(HttpServletRequest request) throws IllegalArgumentException {
         try {
             radius = Double.valueOf(request.getParameter("radius"));
         } catch (NumberFormatException e) {
             return false;
         }
-        if (radius > 2 && radius < 5)
-            return true;
-        else
-            return false;
+        return (radius > 2 && radius < 5);
     }
 
-    private boolean checkArea(Point point) {
+    private boolean isDoSaveInputValid(HttpServletRequest request) throws IllegalArgumentException {
+        int doSave;
+        try {
+            doSave = Integer.valueOf(request.getParameter("doSave"));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return (doSave == -1  || doSave == 1 || doSave == 0);
+    }
+
+    private boolean checkArea(Point point) { //TODO: check triangle
         return (point.getX() >= 0 && point.getX() <= point.getRadius() / 2 && point.getY() >= 0 && point.getY() <= point.getRadius() / 2) ||
                 (point.getX() <= 0 && point.getX() >= -point.getRadius() && point.getY() >= 0 && point.getY() <= point.getRadius()) ||
                 (point.getX() <= 0 && Math.pow(point.getX(), 2) + Math.pow(point.getY(), 2) <= Math.pow(point.getRadius(), 2) && point.getY() <= 0);
+    }
+
+    private JsonArray createResponse(HttpServletResponse response) {
+        response.setHeader("Content-Type", "text/html; charset=UTF-8");
+        JsonArrayBuilder array = Json.createArrayBuilder();
+
+        for (Point point : points) {
+            array.add(Json.createObjectBuilder()
+                    .add("x", point.getX())
+                    .add("y", point.getY())
+                    .add("radius", point.getRadius())
+                    .add("isInArea", point.isInArea()));
+        }
+
+        array.add(Json.createObjectBuilder().add("errorMsg", errorMsg));
+        return array.build();
     }
 }
