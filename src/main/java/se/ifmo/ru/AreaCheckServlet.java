@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +65,6 @@ public class AreaCheckServlet extends HttpServlet {
                     response.getWriter().println(this.createResponse(response));
                     break;
 
-
                 case 1:
                     if (radius != 0) {
                         if (isXYInputValid(request)) {
@@ -88,7 +86,10 @@ public class AreaCheckServlet extends HttpServlet {
                     points = new ArrayList<>();
                     response.getWriter().println(this.createResponse(response));
             }
-        } //TODO: else doSave invalid
+        } else {
+            errorMsg = "please use the form to send requests or do it in a right way :)";
+            response.getWriter().println(this.createResponse(response));
+        }
     }
 
     private boolean isXYInputValid(HttpServletRequest request) throws IllegalArgumentException {
@@ -117,7 +118,7 @@ public class AreaCheckServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             return false;
         }
-        return (doSave == -1  || doSave == 1 || doSave == 0);
+        return (doSave == -1 || doSave == 1 || doSave == 0);
     }
 
     private boolean checkArea(Point point) { //TODO: check triangle
