@@ -158,6 +158,11 @@ a:link {
   .wrap__img__graph, .wrap__content, .wrap__table {
     grid-column-start: 1;
   }
+
+  .canvas {
+    height: 200px;
+    width: 200px;
+  }
 }
 
 @media all and (max-width: 479px) {}
@@ -254,7 +259,7 @@ a:link {
 }
 
 .input__global--margin:last-child {
-  margin-bottom: 5%;
+  margin-bottom: auto;
 }
 
 /* BUTTONS  */

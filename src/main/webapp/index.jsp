@@ -45,8 +45,14 @@
 <div class="all__site__wrap">
     <div class="wrap__img__graph">
         <div class="interactive_element">
-            <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
+            <canvas id="graph" class="canvas" onclick="setPoint(event)" width="400" height="400"></canvas>
         </div>
+    </div>
+    <div id="Rform" style="display: flex; flex-direction: column;">
+        <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
+               type="text" name="radius"
+               id="radius" onclick="charCheckR()"/>
+        <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change radius</button>
     </div>
     <div id="XYform" style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' in (-3; 5)"
@@ -58,12 +64,6 @@
         <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check</button>
         <div id="error_msg" class="error__msg">
         </div>
-    </div>
-    <div id="Rform" style="display: flex; flex-direction: column;">
-        <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
-               type="text" name="radius"
-               id="radius" onclick="charCheckR()"/>
-        <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change radius</button>
     </div>
     <div id="results" class="wrap__table table ">
         <div class="row header__table">
