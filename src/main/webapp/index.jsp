@@ -48,7 +48,7 @@
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="600" height="600"></canvas>
         </div>
     </div>
-    <div name="XYform" style="display: flex; flex-direction: column;">
+    <div id="XYform" style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' in (-3; 5)"
                type="text" name="coordinate_x"
                id="coordinate_x" onclick="charCheckX()"/>
@@ -59,7 +59,7 @@
         <div id="error_msg" class="error__msg">
         </div>
     </div>
-    <div name="Rform" style="display: flex; flex-direction: column;">
+    <div id="Rform" style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
                type="text" name="radius"
                id="radius" onclick="charCheckR()"/>
@@ -80,6 +80,9 @@
                 Result
             </div>
         </div>
+    </div>
+    <div id="ClearBtn" style="display: flex; flex-direction: column;">
+        <button onclick="clearList()" class="btn btn--font input__global--margin input__global--size">clear list</button>
     </div>
 </div>
 

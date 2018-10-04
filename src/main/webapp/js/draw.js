@@ -14,28 +14,6 @@ function initiateGraph() {
     context = canvas.getContext("2d");
 }
 
-function clear1() {
-    $.ajax({
-            type: "get",
-            url: "/lab7/controller",
-            data: {
-                delete: "true"
-            },
-            success: clearlist
-        }
-    );
-
-    function clearlist(result) {
-        var table = document.getElementById("results");
-        var length = table.rows.length;
-        for (var i = 1; i < length; ++i) //keeping the heading
-        {
-            table.deleteRow(1);
-        }
-        canvasFill();
-    }
-}
-
 function canvasFill() {
     canvas = document.getElementById("graph");
     canvas.width = canvas.width;
@@ -154,6 +132,28 @@ function drawFigure(context) {
     context.fill();
 }
 
+function clearList() {
+    $.ajax({
+            type: "post",
+            url: "controllerServlet",
+            data: {
+                doSave: -1
+            },
+            success: (onAjaxSuccess)
+        }
+    );
+
+    function clear(result) {
+        var table = document.getElementById("results");
+        var length = table.rows.length;
+        for (var i = 1; i < length; ++i) //keeping the heading
+        {
+            table.deleteRow(1);
+        }
+        canvasFill();
+    }
+}
+
 function submitXYAction() {
     if (isXYFormValid()) {
         var x_value = Number(document.getElementById('coordinate_x').value);
@@ -220,6 +220,14 @@ function onAjaxSuccess(data) {
                 '</div>';
             row.appendChild(newRow);
         }
+    } else {
+        row.innerHTML = '<div class=\"row header__table\">' +
+            '<div class=\"cell\">X</div>' +
+            '<div class=\"cell\">Y</div>' +
+            '<div class=\"cell\">R</div>' +
+            '<div class=\"cell\">Result</div>' +
+            '</div>';
+        canvasFill();
     }
     errorMsg = return_data[return_data.length - 1].errorMsg;
     if (errorMsg != "") {
