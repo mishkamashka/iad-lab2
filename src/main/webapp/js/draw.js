@@ -40,7 +40,7 @@ function setPoint(event) {
     doXYRequest(real_x, real_y);
 }
 
-function drawPoint(context, x, y, doesBelong) { //TODO: different colours for true and false
+function drawPoint(context, x, y, doesBelong) { //TODO: different colours for true and false, doesBelong does not work
     context.beginPath();
     if (doesBelong == "true") {
         context.fillStyle = "Blue";
@@ -149,15 +149,15 @@ function clearList() {
 
 function submitXYAction() {
     if (isXYFormValid()) {
-        var x_value = Number(document.getElementById('coordinate_x').value);
-        var y_value = Number(document.getElementById('coordinate_y').value);
+        var x_value = Number(document.getElementById("coordinate_x").value);
+        var y_value = Number(document.getElementById("coordinate_y").value);
         doXYRequest(x_value, y_value);
     }
 }
 
 function submitRAction() {
     if (isRFormValid()) {
-        var radius = Number(document.getElementById('radius').value);
+        var radius = Number(document.getElementById("radius").value);
         if (Number(R) != radius) {
             doRRequest(radius);
             R = radius;
@@ -196,7 +196,7 @@ function doRRequest(radius) {
 function onAjaxSuccess(data) {
     var return_data = JSON.parse(data);
     context = canvas.getContext("2d");
-    row = document.getElementById('results');
+    row = document.getElementById("results");
     row.innerHTML = '<div class=\"row header__table\">' +
         '<div class=\"cell\">X</div>' +
         '<div class=\"cell\">Y</div>' +
@@ -211,8 +211,8 @@ function onAjaxSuccess(data) {
             y = return_data[i].y * k + graphWidth / 2;
             drawPoint(context, x, y, return_data[i].isInArea);
 
-            var newRow = document.createElement('div');
-            newRow.setAttribute('class', 'row');
+            var newRow = document.createElement("div");
+            newRow.setAttribute("class", "row");
             newRow.innerHTML = '<div class =\"cell\" data-title=\"X\">' + return_data[i].x + '</div>' +
                 '<div class =\"cell\" data-title=\"Y\">' + return_data[i].y + '</div>' +
                 '<div class =\"cell\" data-title=\"R\">' + return_data[i].radius + '</div>' +
@@ -220,6 +220,19 @@ function onAjaxSuccess(data) {
                 '</div>';
             row.appendChild(newRow);
         }
+
+        if (document.getElementById("clearBtn") === null) {
+            content = document.getElementById("content");
+            var clearBtn = document.createElement("div");
+            clearBtn.setAttribute("id", "clearBtn");
+            clearBtn.setAttribute("style", "display: flex; flex-direction: column");
+            clearBtn.innerHTML = '<div id=\"ClearBtn\" style=\"display: flex; flex-direction: column;\"><button onclick=\"clearList()\" class=\"btn btn--font input__global--margin input__global--size\">clear list</button></div>';
+            content.appendChild(clearBtn);
+        }
+    } else {
+            content = document.getElementById("content");
+            var clearBtn = document.getElementById("clearBtn");
+            content.removeChild(clearBtn);
     }
     errorMsg = return_data[return_data.length - 1].errorMsg;
     error = document.getElementById("error_msg");

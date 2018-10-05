@@ -42,7 +42,7 @@
 </header>
 </div>
 
-<div class="all__site__wrap">
+<div id="content" class="all__site__wrap">
     <div class="wrap__img__graph">
         <div class="interactive_element">
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="400" height="400"></canvas>
@@ -80,9 +80,6 @@
                 Result
             </div>
         </div>
-    </div>
-    <div id="ClearBtn" style="display: flex; flex-direction: column;"> <%--TODO: make this btn appear only when table is filled--%>
-        <button onclick="clearList()" class="btn btn--font input__global--margin input__global--size">clear list</button>
     </div>
 </div>
 
