@@ -52,7 +52,9 @@
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
                type="text" name="radius"
                id="radius" onclick="charCheckR()"/>
-        <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change radius</button>
+        <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change
+            radius
+        </button>
     </div>
     <div id="XYform" style="display: flex; flex-direction: column;">
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'X' in (-3; 5)"
@@ -61,7 +63,8 @@
         <input class="input__text input__global--margin input__global--size" placeholder="enter 'Y' in (-3; 3)"
                type="text" name="coordinate_y"
                id="coordinate_y" onclick="charCheckY()"/>
-        <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check</button>
+        <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check
+        </button>
         <div id="error_msg" class="error__msg">
         </div>
     </div>
@@ -85,10 +88,15 @@
 
 <footer class="footer">
     <div class="footer__block">
-        <%--TODO: change footer--%>
-        <p>Measured time:<br/>
-        </p>
+        <p>You should follow me at:</p>
+        <a href="https://vk.com/i___mishkamashka___i">
+            <img class="footer__icon" src="./image/vk.d89817ac.svg">
+        </a>
+        <a href="https://github.com/mishkamashka">
+            <img class="footer__icon" src="./image/github.svg">
+        </a>
     </div>
+
 </footer>
 
 </body>

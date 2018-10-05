@@ -33,7 +33,7 @@ public class AreaCheckServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doPost(request,response);
+        this.doPost(request, response);
     }
 
     @Override
@@ -121,8 +121,8 @@ public class AreaCheckServlet extends HttpServlet {
         return (doSave == -1 || doSave == 1 || doSave == 0);
     }
 
-    private boolean checkArea(Point point) { //TODO: check triangle
-        return (point.getX() >= 0 && point.getX() <= point.getRadius() / 2 && point.getY() >= 0 && point.getY() <= point.getRadius() / 2) ||
+    private boolean checkArea(Point point) {
+        return (point.getX() >= 0 && point.getY() >= 0 && point.getY() <= -point.getX() + point.getRadius() / 2) ||
                 (point.getX() <= 0 && point.getX() >= -point.getRadius() && point.getY() >= 0 && point.getY() <= point.getRadius()) ||
                 (point.getX() <= 0 && Math.pow(point.getX(), 2) + Math.pow(point.getY(), 2) <= Math.pow(point.getRadius(), 2) && point.getY() <= 0);
     }
