@@ -4,7 +4,6 @@ import se.ifmo.ru.model.Point;
 
 import javax.json.*;
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,12 +31,12 @@ public class AreaCheckServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         this.doPost(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         errorMsg = "";
 
         if (points == null) {
@@ -96,7 +95,7 @@ public class AreaCheckServlet extends HttpServlet {
         try {
             x = Double.valueOf(request.getParameter("coordinate_x"));
             y = Double.valueOf(request.getParameter("coordinate_y"));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | NullPointerException e) {
             return false;
         }
         return (x > -3 && x < 5 && y > -3 && y < 3);
@@ -105,7 +104,7 @@ public class AreaCheckServlet extends HttpServlet {
     private boolean isRInputValid(HttpServletRequest request) throws IllegalArgumentException {
         try {
             radius = Double.valueOf(request.getParameter("radius"));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | NullPointerException e) {
             return false;
         }
         return (radius > 2 && radius < 5);
@@ -115,7 +114,7 @@ public class AreaCheckServlet extends HttpServlet {
         int doSave;
         try {
             doSave = Integer.valueOf(request.getParameter("doSave"));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | NullPointerException e) {
             return false;
         }
         return (doSave == -1 || doSave == 1 || doSave == 0);

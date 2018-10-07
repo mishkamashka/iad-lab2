@@ -47,12 +47,14 @@
         <div class="interactive_element">
             <canvas id="graph" class="canvas" onclick="setPoint(event)" width="400" height="400"></canvas>
         </div>
+        <div id="error_msg" class="error__msg">
+        </div>
     </div>
     <div id="Rform" style="display: flex; flex-direction: column;">
-        <input class="input__text input__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
+        <input class="input__text input-upper__global--margin input__global--size" placeholder="enter 'R' in (2; 5)"
                type="text" name="radius"
                id="radius" onclick="charCheckR()"/>
-        <button onclick="submitRAction()" class="btn btn--font input__global--margin input__global--size">change
+        <button onclick="submitRAction()" class="btn btn--font input-upper__global--margin input__global--size">change
             radius
         </button>
     </div>
@@ -65,8 +67,6 @@
                id="coordinate_y" onclick="charCheckY()"/>
         <button onclick="submitXYAction()" class="btn btn--font input__global--margin input__global--size">check
         </button>
-        <div id="error_msg" class="error__msg">
-        </div>
     </div>
     <div id="results" class="wrap__table table ">
         <div class="row header__table">

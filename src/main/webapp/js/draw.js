@@ -213,9 +213,9 @@ function onAjaxSuccess(data) {
 
             var newRow = document.createElement("div");
             newRow.setAttribute("class", "row");
-            newRow.innerHTML = '<div class =\"cell\" data-title=\"X\">' + return_data[i].x + '</div>' +
-                '<div class =\"cell\" data-title=\"Y\">' + return_data[i].y + '</div>' +
-                '<div class =\"cell\" data-title=\"R\">' + return_data[i].radius + '</div>' +
+            newRow.innerHTML = '<div class =\"cell\" data-title=\"X\">' + return_data[i].x.toFixed(2) + '</div>' +
+                '<div class =\"cell\" data-title=\"Y\">' + return_data[i].y.toFixed(2) + '</div>' +
+                '<div class =\"cell\" data-title=\"R\">' + return_data[i].radius.toFixed(2) + '</div>' +
                 '<div class =\"cell\" data-title=\"Result\">' + return_data[i].isInArea + '</div>' +
                 '</div>';
             row.appendChild(newRow);
@@ -231,7 +231,7 @@ function onAjaxSuccess(data) {
         }
     } else {
             content = document.getElementById("content");
-            var clearBtn = document.getElementById("clearBtn");
+            clearBtn = document.getElementById("clearBtn");
             content.removeChild(clearBtn);
     }
     errorMsg = return_data[return_data.length - 1].errorMsg;

@@ -131,7 +131,7 @@ a:link {
   margin-left: auto;
   margin-right: auto;
   padding-top: 10px;
-  padding-bottom: 15px;
+  padding-bottom: 5px;
   text-transform: uppercase;
 }
 
@@ -248,6 +248,20 @@ a:link {
   padding: 0;
 }
 
+.input-upper__global--margin {
+  margin: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.input-upper__global--margin:first-child {
+  margin-top: 1%;
+}
+
+.input-upper__global--margin:last-child {
+  margin-bottom: auto;
+}
+
 .input__global--margin {
   margin: 10px;
   margin-left: auto;
@@ -259,7 +273,7 @@ a:link {
 }
 
 .input__global--margin:last-child {
-  margin-bottom: auto;
+  margin-bottom: 25px;
 }
 
 /* BUTTONS  */
