@@ -40,9 +40,9 @@ function setPoint(event) {
     doXYRequest(real_x, real_y);
 }
 
-function drawPoint(context, x, y, doesBelong) { //TODO: different colours for true and false, doesBelong does not work
+function drawPoint(context, x, y, doesBelong) {
     context.beginPath();
-    if (doesBelong == "true") {
+    if (doesBelong) {
         context.fillStyle = "Blue";
     }
     else {
